@@ -19,7 +19,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div className="flex flex-col justify-center gap-2">
           <p className="text-xl font-bold md:text-3xl ">{customer.name}</p>
           <p className="text-sm font-light text-gray-600 md:text-base ">
-            {' '}
             {customer.email}
           </p>
         </div>
