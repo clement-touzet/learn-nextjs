@@ -7,6 +7,7 @@ import {
   LatestInvoiceRaw,
   User,
   Revenue,
+  Customer,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -177,10 +178,9 @@ export async function fetchInvoiceById(id: string) {
 
 export async function fetchCustomers() {
   try {
-    const data = await sql<CustomerField>`
+    const data = await sql<Customer>`
       SELECT
-        id,
-        name
+        name, id, email, image_url
       FROM customers
       ORDER BY name ASC
     `;
@@ -233,5 +233,22 @@ export async function getUser(email: string) {
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
+  }
+}
+
+export async function fetchCustomerById(id: string) {
+  try {
+    const data = await sql<Customer>`
+      SELECT
+        *
+      FROM customers
+      WHERE id = ${id}
+    `;
+
+    const customer = data.rows[0];
+    return customer;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch customers.');
   }
 }
